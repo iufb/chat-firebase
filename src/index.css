@@ -3,11 +3,17 @@
 @tailwind utilities;
 
 @layer components {
+  .container {
+    @apply w-full max-w-[1200px] mx-auto;
+  }
   .center {
     @apply flex items-center justify-center;
   }
-  .hvh {
-    @apply h-[100vh];
+  .page {
+    @apply w-full h-[100vh];
+  }
+  .gradientText {
+    @apply text-transparent bg-clip-text bg-gradient-to-l from-sky-500 to-yellow-300;
   }
 }
 html,

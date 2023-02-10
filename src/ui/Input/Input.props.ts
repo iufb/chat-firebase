@@ -3,4 +3,6 @@ export interface InputProps
   extends DetailedHTMLProps<
     HTMLAttributes<HTMLInputElement>,
     HTMLInputElement
-  > {}
+  > {
+  type: "email" | "password";
+}

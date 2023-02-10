@@ -1,1 +1,2 @@
-export * from "./forms/RegisterForm";
+export * from "./forms/Form";
+export * from "./Navbar/Navbar";

@@ -1,43 +1,22 @@
 import {
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
+import { IForm } from "../components/forms/IForm.interface";
 import { auth } from "./firebase";
-export const createUser = ()=>{
-createUserWithEmailAndPassword(auth, "misakilover228@gmail.com", "19931991r")
-  .then((userCredential) => {
-    const user = userCredential.user;
-    console.log(user);
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(`${errorCode} ${errorMessage}`)
-    // ..
-  });
-}
-export const singIn = () => {
- signInWithEmailAndPassword(auth, "misakilover228@gmail.com", "19931991r")
-  .then((userCredential) => {
-    // Signed in
-    const user = userCredential.user;
-    console.log(user);
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(`${errorCode} ${errorMessage}`)
-    // ..
-  });
- 
-}
-export const getStatus = () =>{
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log(user);
-  }
-});
-}
 
+export const createUser = (formData: IForm) => {
+  return createUserWithEmailAndPassword(
+    auth,
+    formData.email,
+    formData.password
+  );
+};
+export const singIn = (formData: IForm) => {
+  return signInWithEmailAndPassword(auth, formData.email, formData.password);
+};
+export const logOut = () => {
+ return signOut(auth)
+
+}
