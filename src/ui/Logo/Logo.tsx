@@ -13,7 +13,7 @@ export const Logo = ({
       <h2
         className={`${
           size == "lg" && "text-5xl lg:text-6xl "
-        } text-2xl hidden lg:block gradientText  underline`}
+        } lg:text-4xl text-3xl lg:block gradientText  underline`}
       >
         Connect
       </h2>

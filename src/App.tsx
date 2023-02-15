@@ -4,9 +4,17 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { Chatbox } from "./components";
 import { ProtectedRoute } from "./helpers/ProtectedRoute";
-import { PageLayout } from "./layout";
-import { ConversationPage, HomePage, LoginPage, RegisterPage } from "./pages";
+import ScrollObserver from "./helpers/scroll-observer";
+import { ConversationLayout, PageLayout } from "./layout";
+import {
+  ConversationPage,
+  HomePage,
+  LoginPage,
+  RegisterPage,
+  UpdateUserPage,
+} from "./pages";
 
 function App() {
   const router = createBrowserRouter(
@@ -14,21 +22,30 @@ function App() {
       <>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/update" element={<UpdateUserPage />} />
         <Route path="/" element={<PageLayout />}>
           <Route path="home" element={<HomePage />} />
-          <Route
-            path="conversations"
-            element={
-              <ProtectedRoute>
-                <ConversationPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route element={<ConversationLayout />}>
+            <Route
+              path="conversations"
+              element={
+                <ProtectedRoute>
+                  <ConversationPage />
+                </ProtectedRoute>
+              }
+            >
+              <Route path=":id" element={<Chatbox />} />
+            </Route>
+          </Route>
         </Route>
       </>
     )
   );
-  return <RouterProvider router={router} />;
+  return (
+    <ScrollObserver>
+      <RouterProvider router={router} />
+    </ScrollObserver>
+  );
 }
 
 export default App;

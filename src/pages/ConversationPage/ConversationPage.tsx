@@ -1,11 +1,12 @@
-import { logOut } from "../../firebase/auth";
-import { useAuth } from "../../helpers/hooks/useAuth";
+import { Outlet, useLocation } from "react-router-dom";
 
 export const ConversationPage = (): JSX.Element => {
-  const { user, setUser } = useAuth();
-  const handlelogOut = () => {
-    logOut();
-  };
-  console.log(user);
-  return <div className="page">Conversation</div>;
+  const { pathname } = useLocation();
+  const isMain = pathname === "/conversations";
+  console.log(pathname);
+  return (
+    <div className={`page ${isMain && "center"} `}>
+      {isMain ? <div>Choose chat or create new</div> : <Outlet />}
+    </div>
+  );
 };

@@ -11,11 +11,16 @@ module.exports = {
     extend: {
       animation: {
         bgPulse: "bgFrames 2.5s ease-in-out infinite ",
+        slideRight: "slideright 1s ease-in-out",
       },
       keyframes: {
         bgFrames: {
           "0%, 100%": { backgroundPosition: "0 50%" },
           "50%": { backgroundPosition: "100% 50%" },
+        },
+        slideright: {
+          from: { opacity: 0, transform: "translateX(20%)" },
+          to: { opacity: 1, transform: "0" },
         },
       },
       backgroundSize: {

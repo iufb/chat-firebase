@@ -4,5 +4,6 @@ export interface ButtonProps
     HTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
-    children: ReactNode
-  }
+  children: ReactNode;
+  color: "white" | "dark";
+}

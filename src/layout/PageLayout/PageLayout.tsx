@@ -5,7 +5,7 @@ export const PageLayout = (): JSX.Element => {
   return (
     <div>
       <Navbar />
-      <div className="container  md:pt-[100px]">
+      <div className="container">
         <Outlet />
       </div>
     </div>
