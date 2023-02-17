@@ -1,27 +1,52 @@
-import { useRef } from "react";
-import { useForm } from "react-hook-form";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { CreateConversation } from "../../../firebase/conversations";
 import { useAuth } from "../../../helpers/hooks/useAuth";
 import { useOnClickOutside } from "../../../helpers/hooks/useOnClickOutside";
 import { useShowCreateModal } from "../../../helpers/hooks/useShowCreateModal";
-import { Button, Input } from "../../../ui";
-import { ICreateConversationForm } from "./ICreateConversationForm";
+import { Button, Input, Select } from "../../../ui";
 import { ReactComponent as CloseIcon } from "../../../assets/close.svg";
+import { useAllUsers } from "../../../zustand/users/users";
 export const CreateConversationForm = () => {
-  const { register, handleSubmit } = useForm<ICreateConversationForm>();
   const { user } = useAuth();
+  const { users, getUsers } = useAllUsers((state) => ({
+    users: state.users,
+    getUsers: state.getUsers,
+  }));
   const { setIsShow } = useShowCreateModal();
   const formRef = useRef<HTMLFormElement>(null);
   useOnClickOutside(formRef, () => setIsShow(false));
-  const onSubmit = (data: ICreateConversationForm) => {
+  const [selectedName, setSelectedName] = useState<string>("");
+  const [selectedId, setSelectedId] = useState<string>("");
+  const [showList, setShowList] = useState(false);
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
     if (user) {
-      CreateConversation(user?.id, data.recipientId);
+      CreateConversation(user?.id, selectedId);
       setIsShow(false);
     }
   };
+  const filteredList = () => {
+    return (
+      users &&
+      user &&
+      users.filter((userName) => {
+        const name: string = userName.name.toLowerCase();
+        return (
+          name.includes(selectedName.toLowerCase().trim()) &&
+          userName.id !== user.id
+        );
+      })
+    );
+  };
+  const list = filteredList();
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => onSubmit(e)}
       className="w-full max-w-[600px] flex flex-col gap-2 bg-gray-700 p-4 rounded-md relative"
       ref={formRef}
     >
@@ -30,11 +55,26 @@ export const CreateConversationForm = () => {
         className="w-6 h-6 fill-white absolute top-2 right-4 cursor-pointer"
         onClick={() => setIsShow(false)}
       />
-      <Input
-        type="text"
-        id="Recipient"
-        {...register("recipientId", { required: true })}
-      />
+      <div className="relative">
+        <Input
+          type="text"
+          id="Recipient"
+          value={selectedName}
+          changeEvent={setSelectedName}
+          onKeyDown={() => setShowList(true)}
+          className="relative"
+        />
+        {list && showList && (
+          <Select
+            users={list}
+            setSelected={setSelectedName}
+            setSelectedId={setSelectedId}
+            setShowList={setShowList}
+            className="absolute top-26"
+          />
+        )}
+      </div>
+
       <Button variant="dark" className="w-full">
         Create
       </Button>

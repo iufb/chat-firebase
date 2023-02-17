@@ -3,7 +3,7 @@ import { InputProps } from "./Input.props";
 
 export const Input = forwardRef(
   (
-    { type, id, className, ...props }: InputProps,
+    { type, id, value, changeEvent, className, ...props }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
   ): JSX.Element => {
     return (
@@ -17,6 +17,8 @@ export const Input = forwardRef(
           {...props}
           type={type}
           ref={ref}
+          value={value}
+          onChange={(e) => changeEvent && changeEvent(e.target.value)}
         />
       </div>
     );

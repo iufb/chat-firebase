@@ -22,7 +22,7 @@ export const UserHeader = ({
       ) : (
         <div className="userCircle border-gray-400" />
       )}
-      <div className="flex flex-col  ">
+      <div className="hidden flex-col md:flex ">
         <h2 className="text-md">{displayName}</h2>
         <p className="text-gray-400 text-sm">
           {typeof email === "string" && GetNickName(email)}

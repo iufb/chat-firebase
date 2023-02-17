@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { CurrentUser } from "../helpers/types/types";
 import { db } from "./firebase";
 
@@ -15,7 +15,7 @@ export const addUser = async (user: CurrentUser | null | undefined) => {
       { merge: true }
     );
 };
-export const getUser = async (id: string | undefined) => {
+export const getUserById = async (id: string | undefined) => {
   if (!id) return;
   const userRef = doc(db, "users", id);
   const user = await getDoc(userRef);
@@ -25,4 +25,8 @@ export const getUser = async (id: string | undefined) => {
   const data = user.data();
 
   return data;
+};
+export const getAllUsers = async () => {
+  const querySnapshot = await getDocs(collection(db, "users"));
+  return querySnapshot.docs.map((doc) => doc.data());
 };
