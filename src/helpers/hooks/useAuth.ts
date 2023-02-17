@@ -1,6 +1,7 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import { auth } from "../../firebase/firebase";
+import { addUser } from "../../firebase/users";
 import { useUser } from "../../zustand/auth/auth";
 export const useAuth = () => {
   const { user, setUser } = useUser((state) => ({
@@ -12,9 +13,9 @@ export const useAuth = () => {
       if (typeof user === "undefined") {
         setUser(null);
       }
-      console.log(user);
       setUser(user);
     });
+    addUser(user);
     return unSubscribe;
   }, []);
   return { user, setUser };

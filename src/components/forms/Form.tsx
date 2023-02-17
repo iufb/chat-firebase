@@ -15,8 +15,7 @@ export const Form = ({
   const navigate = useNavigate();
   const onSubmit = (data: IForm) => {
     eventHandler(data)
-      .then((userCredential) => {
-        console.log(userCredential.user);
+      .then(() => {
         navigate(`/${path}`);
       })
       .catch((e) => {
@@ -39,7 +38,7 @@ export const Form = ({
         id="Password"
         {...register("password", { required: true })}
       />
-      <Button className="xl:text-3xl lg:text-2xl text-lg mt-5" color="white">
+      <Button className="xl:text-3xl lg:text-2xl text-lg mt-5" variant="white">
         {title}
       </Button>
     </form>

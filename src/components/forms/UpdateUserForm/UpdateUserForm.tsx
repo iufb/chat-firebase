@@ -29,11 +29,11 @@ export const UpdateUserForm = (): JSX.Element => {
   const navigate = useNavigate();
   const imgRef = ref(storage, `users/${user?.id}/avatar`);
   const onSubmit = (data: IUpdateUserForm) => {
+    navigate("/home");
     if (url) {
       addImage(imgRef, url).then((url) => {
         const newData = { ...data, photoURL: url };
         updateUser(newData);
-        navigate("/home");
       });
     }
   };
@@ -60,7 +60,7 @@ export const UpdateUserForm = (): JSX.Element => {
         id="Last Name"
         {...register("lastName", { required: true })}
       />
-      <Button color="white" className="w-full">
+      <Button variant="white" className="w-full">
         Submit
       </Button>
     </form>

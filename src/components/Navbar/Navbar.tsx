@@ -6,6 +6,7 @@ import { NavbarProps } from "./Navbar.props";
 import { ReactComponent as BurgerIcon } from "../../assets/burger.svg";
 import { useState } from "react";
 import { BurgerMenu } from "./BurgerMenu";
+import { UserHeader } from "../UserHeader/UserHeader";
 export const navlist = [
   {
     name: "Home",
@@ -48,14 +49,12 @@ export const Navbar = ({ className, ...props }: NavbarProps): JSX.Element => {
             </NavLink>
           </li>
         ))}
-        <li>
-          <Button
-            color="dark"
-            className="text-lg hidden lg:block"
-            onClick={handleAuth}
-          >
-            {user ? "Sign Out" : "Log in"}
-          </Button>
+        <li onClick={handleAuth}>
+          {user ? (
+            <UserHeader user={user} />
+          ) : (
+            <Button variant="white">Log In</Button>
+          )}
         </li>
         <li onClick={() => setIsOpen((prev) => !prev)}>
           <BurgerIcon className={` block md:hidden ${isOpen && "hidden"} `} />
