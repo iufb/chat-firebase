@@ -9,8 +9,8 @@ export const addUser = async (user: CurrentUser | null | undefined) => {
       {
         id: user.id,
         email: user.email,
-        name: user.displayName,
-        avatar: user.photoURL,
+        name: user.name,
+        avatar: user.avatar,
       },
       { merge: true }
     );

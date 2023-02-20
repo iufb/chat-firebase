@@ -3,27 +3,29 @@ import { UserHeaderProps } from "./UserHeader.props";
 
 export const UserHeader = ({
   user,
+  size = "w-10 h-10",
+  text = "text-md",
   className,
   ...props
 }: UserHeaderProps): JSX.Element => {
   if (!user) return <div>Loading</div>;
-  const { photoURL, displayName, email } = user;
+  const { avatar, name, email } = user;
   return (
     <div
-      className={`${className} flex gap-2 center cursor-pointer hoverCover `}
+      className={`${className} flex gap-2 center cursor-pointer  `}
       {...props}
     >
-      {photoURL ? (
+      {avatar ? (
         <img
-          src={photoURL}
+          src={avatar}
           alt="userPhoto"
-          className="userCircle object-cover"
+          className={`userCircle object-cover ${size}`}
         />
       ) : (
         <div className="userCircle border-gray-400" />
       )}
       <div className="hidden flex-col md:flex ">
-        <h2 className="text-md">{displayName}</h2>
+        <h2 className={`${text}`}>{name}</h2>
         <p className="text-gray-400 text-sm">
           {typeof email === "string" && GetNickName(email)}
         </p>

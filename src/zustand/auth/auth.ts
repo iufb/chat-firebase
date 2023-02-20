@@ -13,9 +13,8 @@ export const useUser = create<IuseUser>((set) => ({
         user: {
           email: user.email,
           id: user.uid,
-          token: user.refreshToken,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
+          name: user.displayName,
+          avatar: user.photoURL,
         },
       });
     } else {

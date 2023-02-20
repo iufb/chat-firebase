@@ -1,7 +1,11 @@
 export type CurrentUser = {
   email: string | null;
-  token: string;
   id: string;
-  displayName: string | null;
-  photoURL: string | null;
+  name: string | null;
+  avatar: string | null;
+};
+export type ConversationType = {
+  id: string;
+  creatorId: string;
+  recipientId: string;
 };

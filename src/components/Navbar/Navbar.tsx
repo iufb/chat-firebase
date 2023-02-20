@@ -51,7 +51,7 @@ export const Navbar = ({ className, ...props }: NavbarProps): JSX.Element => {
         ))}
         <li onClick={handleAuth}>
           {user ? (
-            <UserHeader user={user} />
+            <UserHeader user={user} className="hoverCover" />
           ) : (
             <Button variant="white">Log In</Button>
           )}

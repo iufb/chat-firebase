@@ -6,6 +6,7 @@ import { useShowCreateModal } from "../../../helpers/hooks/useShowCreateModal";
 import { Button, Input, Select } from "../../../ui";
 import { ReactComponent as CloseIcon } from "../../../assets/close.svg";
 import { useAllUsers } from "../../../zustand/users/users";
+import { DocumentData } from "firebase/firestore";
 export const CreateConversationForm = () => {
   const { user } = useAuth();
   const { users, getUsers } = useAllUsers((state) => ({
@@ -16,12 +17,12 @@ export const CreateConversationForm = () => {
   const formRef = useRef<HTMLFormElement>(null);
   useOnClickOutside(formRef, () => setIsShow(false));
   const [selectedName, setSelectedName] = useState<string>("");
-  const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedUser, setSelectedUser] = useState<DocumentData | null>(null);
   const [showList, setShowList] = useState(false);
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (user) {
-      CreateConversation(user?.id, selectedId);
+    if (user && selectedUser) {
+      CreateConversation(user, selectedUser);
       setIsShow(false);
     }
   };
@@ -68,7 +69,7 @@ export const CreateConversationForm = () => {
           <Select
             users={list}
             setSelected={setSelectedName}
-            setSelectedId={setSelectedId}
+            setSelectedUser={setSelectedUser}
             setShowList={setShowList}
             className="absolute top-26"
           />

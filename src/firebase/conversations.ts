@@ -9,21 +9,22 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import { CurrentUser } from "../helpers/types/types";
 import { db } from "./firebase";
 
 export const CreateConversation = async (
-  creatorId: string,
-  recipientId: string
+  creator: CurrentUser,
+  recipient: DocumentData
 ) => {
   const q = query(
     collection(db, "conversations"),
-    where("recipientId", "==", recipientId),
-    where("creatorId", "==", creatorId)
+    where("recipientId", "==", recipient.id),
+    where("creatorId", "==", creator.id)
   );
   const q2 = query(
     collection(db, "conversations"),
-    where("recipientId", "==", creatorId),
-    where("creatorId", "==", recipientId)
+    where("recipientId", "==", creator.id),
+    where("creatorId", "==", recipient.id)
   );
   const querySnapshot1: QuerySnapshot<DocumentData> = await getDocs(q);
   const querySnapshot2: QuerySnapshot<DocumentData> = await getDocs(q2);
@@ -32,8 +33,8 @@ export const CreateConversation = async (
     throw new Error("Conversation already exist");
   } else {
     const docRef = await addDoc(collection(db, "conversations"), {
-      creatorId,
-      recipientId,
+      creator,
+      recipient,
     });
     await updateDoc(doc(db, "conversations", docRef.id), {
       id: docRef.id,
@@ -41,11 +42,18 @@ export const CreateConversation = async (
   }
 };
 export const GetConversations = async (id: string) => {
-  const q = query(
+  const q1 = query(
     collection(db, "conversations"),
-    where("recipientId", "==", id),
-    where("creatorId", "==", id)
+    where("creator.id", "==", id)
   );
-  const querySnapshot: QuerySnapshot<DocumentData> = await getDocs(q);
-  return querySnapshot.docs;
+  const q2 = query(
+    collection(db, "conversations"),
+    where("recipient.id", "==", id)
+  );
+  const querySnapshot1: QuerySnapshot<DocumentData> = await getDocs(q1);
+  const querySnapshot2: QuerySnapshot<DocumentData> = await getDocs(q2);
+  const list = querySnapshot2.docs
+    .map((doc) => doc.data())
+    .concat(querySnapshot1.docs.map((doc) => doc.data()));
+  return list;
 };

@@ -4,7 +4,7 @@ export const Select = ({
   users,
   className,
   setSelected,
-  setSelectedId,
+  setSelectedUser,
   setShowList,
   ...props
 }: SelectProps): JSX.Element => {
@@ -13,12 +13,15 @@ export const Select = ({
       className={`${className} flex flex-col  gap-2 w-full max-w-[400px] bg-white  bg-opacity-50  rounded-md text-black p-2 divide-y divide-gray-300 backdrop-blur-sm`}
       {...props}
     >
+      {users.length == 0 && (
+        <h2 className="text-gray-700 text-lg">No user found</h2>
+      )}
       {users.map((user) => (
         <div
           className="flex gap-2  pt-2 cursor-pointer hover:bg-white hover:bg-opacity-70 rounded-md p-2"
           key={user.id}
           onClick={() => {
-            setSelectedId(user.id);
+            setSelectedUser(user);
             setSelected(user.name);
             setShowList(false);
           }}

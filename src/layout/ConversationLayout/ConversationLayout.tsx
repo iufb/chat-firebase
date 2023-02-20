@@ -7,7 +7,7 @@ export const ConversationLayout = (): JSX.Element => {
       <div className="w-full max-w-[350px] border-r border-gray-300">
         <ConversationSidebar />
       </div>
-      <div className="flex-1 p-1">
+      <div className="flex-1">
         <Outlet />
       </div>
     </div>
