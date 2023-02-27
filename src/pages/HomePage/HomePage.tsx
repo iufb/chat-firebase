@@ -7,6 +7,6 @@ export const HomePage = (): JSX.Element => {
     users: state.users,
     getUsers: state.getUsers,
   }));
-  console.log(users);
+  console.log(user);
   return <div className="page ">Home</div>;
 };

@@ -1,8 +1,9 @@
+import { memo } from "react";
 import { ReactComponent as NewConversationIcon } from "../../../assets/NewConversation.svg";
 import { useShowCreateModal } from "../../../helpers/hooks/useShowCreateModal";
 import { Button } from "../../../ui";
 import { CreateConversationModal } from "../../modals/CreateConversationModal/CreateConversationModal";
-export const SidebarHeader = (): JSX.Element => {
+export const SidebarHeader = memo((): JSX.Element => {
   const { isShow, setIsShow } = useShowCreateModal();
   return (
     <div className=" border-b border-gray-300">
@@ -15,4 +16,4 @@ export const SidebarHeader = (): JSX.Element => {
       {isShow && <CreateConversationModal />}
     </div>
   );
-};
+});

@@ -9,3 +9,10 @@ export type ConversationType = {
   creatorId: string;
   recipientId: string;
 };
+export type MessageType = {
+  id: string;
+  avatar: string;
+  content: string;
+  name: string;
+  timestamp: number;
+};

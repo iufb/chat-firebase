@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, memo, useEffect, useRef, useState } from "react";
 import { CreateConversation } from "../../../firebase/conversations";
 import { useAuth } from "../../../helpers/hooks/useAuth";
 import { useOnClickOutside } from "../../../helpers/hooks/useOnClickOutside";
@@ -7,7 +7,7 @@ import { Button, Input, Select } from "../../../ui";
 import { ReactComponent as CloseIcon } from "../../../assets/close.svg";
 import { useAllUsers } from "../../../zustand/users/users";
 import { DocumentData } from "firebase/firestore";
-export const CreateConversationForm = () => {
+export const CreateConversationForm = memo(() => {
   const { user } = useAuth();
   const { users, getUsers } = useAllUsers((state) => ({
     users: state.users,
@@ -81,4 +81,4 @@ export const CreateConversationForm = () => {
       </Button>
     </form>
   );
-};
+});

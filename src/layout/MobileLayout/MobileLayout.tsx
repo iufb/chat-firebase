@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "../../components";
 
-export const PageLayout = (): JSX.Element => {
+export const MobileLayout = () => {
   return (
-    <div className="h-screen  overflow-hidden">
+    <div className="flex flex-col w-full h-full">
       <Navbar />
-      <div className="container ">
+      <div className="flex-1">
         <Outlet />
       </div>
     </div>

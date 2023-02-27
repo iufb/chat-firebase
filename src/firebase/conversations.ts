@@ -18,18 +18,17 @@ export const CreateConversation = async (
 ) => {
   const q = query(
     collection(db, "conversations"),
-    where("recipientId", "==", recipient.id),
-    where("creatorId", "==", creator.id)
+    where("recipient.id", "==", recipient.id),
+    where("creator.id", "==", creator.id)
   );
   const q2 = query(
     collection(db, "conversations"),
-    where("recipientId", "==", creator.id),
-    where("creatorId", "==", recipient.id)
+    where("recipient.id", "==", creator.id),
+    where("creator.id", "==", recipient.id)
   );
   const querySnapshot1: QuerySnapshot<DocumentData> = await getDocs(q);
   const querySnapshot2: QuerySnapshot<DocumentData> = await getDocs(q2);
   if (querySnapshot1.docs[0] || querySnapshot2.docs[0]) {
-    console.log(querySnapshot1.docs[0]);
     throw new Error("Conversation already exist");
   } else {
     const docRef = await addDoc(collection(db, "conversations"), {
@@ -56,4 +55,12 @@ export const GetConversations = async (id: string) => {
     .map((doc) => doc.data())
     .concat(querySnapshot1.docs.map((doc) => doc.data()));
   return list;
+};
+export const updateLastMessage = async (
+  conversationId: string,
+  lastMessage: string
+) => {
+  await updateDoc(doc(db, "conversations", conversationId), {
+    lastMessage,
+  });
 };

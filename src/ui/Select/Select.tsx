@@ -28,7 +28,7 @@ export const Select = ({
         >
           <img
             src={user.avatar}
-            className="w-10 h-10 rounded-full border-zinc-400"
+            className="w-10 h-10 rounded-full object-cover border-zinc-400"
           />
           <p className="text-xl ">{user.name}</p>
         </div>

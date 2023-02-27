@@ -2,7 +2,8 @@ import { useForm } from "react-hook-form";
 import { FormProps } from "./Form.props";
 import { Button, Input } from "../../ui";
 import { IForm } from "./IForm.interface";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../helpers/hooks/useAuth";
 
 export const Form = ({
   title,
@@ -12,15 +13,15 @@ export const Form = ({
   ...props
 }: FormProps): JSX.Element => {
   const { register, handleSubmit } = useForm<IForm>();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const onSubmit = (data: IForm) => {
-    eventHandler(data)
-      .then(() => {
-        navigate(`/${path}`);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    try {
+      eventHandler(data);
+      navigate(`/${path}`);
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <form
@@ -38,7 +39,11 @@ export const Form = ({
         id="Password"
         {...register("password", { required: true })}
       />
-      <Button className="xl:text-3xl lg:text-2xl text-lg mt-5" variant="white">
+      <Button
+        className=" w-full xl:text-3xl lg:text-2xl text-lg mt-5"
+        variant="white"
+        type="submit"
+      >
         {title}
       </Button>
     </form>

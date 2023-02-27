@@ -25,10 +25,13 @@
     @apply bg-gradient-to-r from-purple-500 to-cyan-300 animate-bgPulse  bg-back;
   }
   .userCircle {
-    @apply rounded-full border border-gray-300;
+    @apply rounded-full border border-gray-300 object-cover;
   }
   .hoverCover {
     @apply hover:bg-black hover:bg-opacity-10 rounded-full cursor-pointer lg:py-2 lg:px-2 transition duration-200 ease-out;
+  }
+  .tail {
+    @apply bg-white w-4 h-4 -mb-10 relative before:absolute  before:w-8 before:h-8  before:bg-gray-400 before:rounded-full before:-top-4;
   }
 }
 html,
@@ -36,4 +39,22 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-md;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
 }

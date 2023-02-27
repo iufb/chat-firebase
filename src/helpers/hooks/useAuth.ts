@@ -15,8 +15,10 @@ export const useAuth = () => {
       }
       setUser(user);
     });
-    addUser(user);
     return unSubscribe;
+  }, []);
+  useEffect(() => {
+    addUser(user);
   }, []);
   return { user, setUser };
 };

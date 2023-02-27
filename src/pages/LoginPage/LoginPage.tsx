@@ -6,7 +6,7 @@ export const LoginPage = (): JSX.Element => {
   return (
     <div className="pageScreen center  bgGradient flex flex-col">
       <Logo size="lg" color="white" />
-      <Form title="Log in" eventHandler={singIn} path="conversations" />
+      <Form title="Log in" eventHandler={singIn} path="home" />
     </div>
   );
 };
