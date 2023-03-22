@@ -1,11 +1,12 @@
 import { PropsWithChildren } from "react";
 import { Navigate } from "react-router-dom";
+import { Skeleton } from "../ui";
 import { useAuth } from "./hooks/useAuth";
 
 export const ProtectedRoute = ({ children }: PropsWithChildren) => {
   const { user } = useAuth();
   return typeof user === "undefined" ? (
-    <h1>Loading...</h1>
+    <Skeleton />
   ) : user ? (
     <>{children}</>
   ) : (

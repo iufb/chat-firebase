@@ -6,16 +6,11 @@ import { SidebarHeader } from "./SidebarHeader/SidebarHeader";
 import { SidebarItem } from "./SidebarItem/SidebarItem";
 
 export const ConversationSidebar = (): JSX.Element => {
+  const { user } = useAuth();
   const { conversations, fetchConversations } = useConversations((state) => ({
     conversations: state.conversations,
     fetchConversations: state.fetchConversations,
   }));
-  const [conversationState, setConversationState] = useState<DocumentData[]>();
-  useEffect(() => {
-    setConversationState(conversations);
-    return () => setConversationState([]);
-  }, [conversations]);
-  const { user } = useAuth();
   useEffect(() => {
     try {
       if (user && user.id) fetchConversations(user.id);
@@ -24,10 +19,10 @@ export const ConversationSidebar = (): JSX.Element => {
     }
   }, [user]);
   return (
-    <div className="">
+    <div>
       <SidebarHeader />
-      {conversationState &&
-        conversationState.map((conversation) => (
+      {conversations &&
+        conversations.map((conversation) => (
           <SidebarItem key={conversation.id} conversation={conversation} />
         ))}
     </div>

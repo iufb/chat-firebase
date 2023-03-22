@@ -7,15 +7,21 @@ import { Button, Input, Select } from "../../../ui";
 import { ReactComponent as CloseIcon } from "../../../assets/close.svg";
 import { useAllUsers } from "../../../zustand/users/users";
 import { DocumentData } from "firebase/firestore";
+import { useConversations } from "../../../zustand/conversations/conversations";
 export const CreateConversationForm = memo(() => {
   const { user } = useAuth();
   const { users, getUsers } = useAllUsers((state) => ({
     users: state.users,
     getUsers: state.getUsers,
   }));
+  const { fetchConversations } = useConversations((state) => ({
+    fetchConversations: state.fetchConversations,
+  }));
+
   const { setIsShow } = useShowCreateModal();
   const formRef = useRef<HTMLFormElement>(null);
   useOnClickOutside(formRef, () => setIsShow(false));
+
   const [selectedName, setSelectedName] = useState<string>("");
   const [selectedUser, setSelectedUser] = useState<DocumentData | null>(null);
   const [showList, setShowList] = useState(false);
@@ -23,6 +29,7 @@ export const CreateConversationForm = memo(() => {
     e.preventDefault();
     if (user && selectedUser) {
       CreateConversation(user, selectedUser);
+      fetchConversations(user.id);
       setIsShow(false);
     }
   };

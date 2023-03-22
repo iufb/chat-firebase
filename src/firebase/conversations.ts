@@ -3,15 +3,15 @@ import {
   collection,
   doc,
   DocumentData,
+  getDoc,
   getDocs,
   query,
   QuerySnapshot,
   updateDoc,
   where,
 } from "firebase/firestore";
-import { CurrentUser } from "../helpers/types/types";
+import { ConversationType, CurrentUser } from "../helpers/types/types";
 import { db } from "./firebase";
-
 export const CreateConversation = async (
   creator: CurrentUser,
   recipient: DocumentData
@@ -63,4 +63,14 @@ export const updateLastMessage = async (
   await updateDoc(doc(db, "conversations", conversationId), {
     lastMessage,
   });
+};
+
+export const GetConversationById = async (id: string) => {
+  const docRef = doc(db, "conversations", id);
+  const conversation = await getDoc(docRef);
+  if (!conversation.exists()) {
+    throw new Error("Conversation not found");
+  }
+  const data = conversation.data();
+  return data;
 };

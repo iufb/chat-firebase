@@ -28,8 +28,6 @@ export const Navbar = memo(
     const handleAuth = () => {
       if (user) {
         return logOut();
-      } else {
-        return navigate("/login");
       }
     };
     return (
@@ -58,7 +56,15 @@ export const Navbar = memo(
               {user ? (
                 <UserHeader user={user} className="hoverCover" />
               ) : (
-                <Button variant="white">Log In</Button>
+                <div className=" gap-2 center">
+                  <Button variant="dark" onClick={() => navigate("/login")}>
+                    Log In
+                  </Button>
+                  <p className="text-gray-400">or</p>
+                  <Button variant="dark" onClick={() => navigate("/register")}>
+                    Register
+                  </Button>
+                </div>
               )}
             </li>
           )}

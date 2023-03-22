@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Chatbox, ConversationSidebar } from "./components";
 import { Chat } from "./components/Chatbox/Chat/Chat";
+import { VideoChat } from "./components/VideoChat/VideoChat";
 import { useIsMobile } from "./helpers/hooks/useIsMobile";
 import { ProtectedRoute } from "./helpers/ProtectedRoute";
 import {
@@ -24,6 +25,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/update" element={<UpdateUserPage />} />
+      <Route path="video" element={<VideoChat />} />
       {!isMobile ? (
         <Route path="/" element={<PageLayout />}>
           <Route path="home" element={<HomePage />} />

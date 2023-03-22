@@ -28,7 +28,8 @@ export const sendMessage = (
 };
 export const getMessages = (
   conversationId: string,
-  setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>
+  setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const messageRef = query(
     ref(realtimeDb, "messages/" + conversationId),
@@ -39,7 +40,7 @@ export const getMessages = (
       const data = snapshot.val();
       setMessages(Object.values(data));
     } else {
-      throw new Error("No messages found");
+      setIsLoading(false);
     }
   });
 };
