@@ -1,5 +1,5 @@
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 export interface ChooseCallVariantModalProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  videoOrAudioCall: (callType: boolean) => void;
+  videoOrAudioCall: (callType: "VideoOn" | "VideoOff") => void;
 }

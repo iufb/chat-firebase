@@ -21,8 +21,11 @@ export const ChooseCallVariantModal = ({
       />
       <h1 className="text-2xl text-white"> Call type: </h1>
       <div className="flex gap-4">
-        <VideoButton type="webcam" onClick={() => videoOrAudioCall(true)} />
-        <VideoButton type="call" onClick={() => videoOrAudioCall(false)} />
+        <VideoButton
+          type="webcam"
+          onClick={() => videoOrAudioCall("VideoOn")}
+        />
+        <VideoButton type="call" onClick={() => videoOrAudioCall("VideoOff")} />
       </div>
     </div>
   );

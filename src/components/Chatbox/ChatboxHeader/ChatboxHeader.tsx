@@ -5,7 +5,6 @@ import { ReactComponent as ArrowBack } from "../../../assets/arrow-back.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../../ui";
 import { ReactComponent as CallIcon } from "../../../assets/call.svg";
-import { VideoCall } from "../../modals/VideoCallModals/VideoCall";
 import { useStartCall } from "../../../zustand/videocall/startCall";
 import { useEffect, useState } from "react";
 import { useIsCalling } from "../../../zustand/videocall/isCalling";
@@ -13,6 +12,7 @@ import { useConversations } from "../../../zustand/conversations/conversations";
 import { doc, DocumentData, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../../../firebase/firebase";
 import { useIsAnswered } from "../../../zustand/videocall/isAnswered";
+import VideoCall from "../../VideoCall/VideoCall";
 export const ChatBoxHeader = (): JSX.Element => {
   const { recipient } = useRecipient((state) => ({
     recipient: state.recipient,
@@ -84,6 +84,7 @@ export const ChatBoxHeader = (): JSX.Element => {
           </Button>
         </div>
       )}
+      <VideoCall />
     </>
   );
 };

@@ -3,7 +3,7 @@ import { DetailedHTMLProps, HTMLAttributes } from "react";
 export interface CallModalProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   type: "call" | "answer";
-  recipient: DocumentData;
-  decline: () => void;
-  answer?: () => void;
+  conversation: DocumentData;
+  callUserId: string;
+  userId: string;
 }
