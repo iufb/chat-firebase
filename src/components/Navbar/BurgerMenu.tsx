@@ -19,9 +19,15 @@ export const BurgerMenu = memo(({ setIsOpen }: Props): JSX.Element => {
             <Link to={link.to}>{link.name}</Link>
           </li>
         ))}
-        <li onClick={logOut} className="cursor-pointer">
-          {user && user.name}
-        </li>
+        {user ? (
+          <li onClick={logOut} className="cursor-pointer">
+            {user.name}
+          </li>
+        ) : (
+          <Link to="/login">
+            <li>Log in </li>
+          </Link>
+        )}
       </ul>
     </div>
   );

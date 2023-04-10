@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { GetConversationById } from "../../firebase/conversations";
 import { db } from "../../firebase/firebase";
 import { useAuth } from "../../helpers/hooks/useAuth";
+import { Spinner } from "../../ui";
+import { useStartCall } from "../../zustand/videocall/startCall";
 import { CallModal } from "../modals/VideoCallModals/CallModal/CallModal";
 import { ParticipantLayout } from "./ParticipantLayout/ParticipantLayout";
 import { ParticipantView } from "./ParticipantView";
@@ -20,20 +22,26 @@ function CallView({
   const [joined, setJoined] = useState<string>("");
   const [callUser, setCallUser] = useState<string>("");
   const [conversation, setConversation] = useState<DocumentData | null>(null);
+  const { setStartCall } = useStartCall((state) => ({
+    setStartCall: state.setStartCall,
+  }));
   const { user } = useAuth();
   const userId = user && typeof user.id == "string" ? user.id : "";
-  //Get the method which will be used to join the meeting.
-  //We will also get the participants list to display all participants
-  const { join, participants } = useMeeting({
-    //callback for when meeting is joined successfully
+
+  const { participants, leave } = useMeeting({
     onMeetingJoined: () => {
       setJoined("JOINED");
     },
-    //callback for when meeting is left
     onMeetingLeft: () => {
       onMeetingLeave();
     },
+    onParticipantLeft: () => {
+      setStartCall(false);
+      leave();
+      onMeetingLeave();
+    },
   });
+
   useEffect(() => {
     const getCallUser = async (): Promise<DocumentData> => {
       const callRef = doc(db, "calls", conversationId);
@@ -50,16 +58,23 @@ function CallView({
       setConversation(data);
     });
   }, []);
+
   return (
-    <div className="center">
-      <h3>Meeting Id: {meetingId}</h3>
+    <div>
       {joined && joined == "JOINED" ? (
         <ParticipantLayout>
-          //For rendering all the participants in the meeting
           {[...participants.keys()].map((participantId) => (
-            <ParticipantView participantId={participantId} />
+            <ParticipantView
+              participantId={participantId}
+              key={participantId}
+            />
           ))}
         </ParticipantLayout>
+      ) : joined && joined == "JOINING" ? (
+        <div className="center flex-col gap-2">
+          <Spinner />
+          <p className="text-white animate-pulse">Joining the meeting...</p>
+        </div>
       ) : (
         conversation && (
           <CallModal
@@ -67,6 +82,7 @@ function CallView({
             callUserId={callUser}
             conversation={conversation}
             userId={userId}
+            setJoined={setJoined}
           />
         )
       )}

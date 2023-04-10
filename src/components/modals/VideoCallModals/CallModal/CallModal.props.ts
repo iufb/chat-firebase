@@ -6,4 +6,5 @@ export interface CallModalProps
   conversation: DocumentData;
   callUserId: string;
   userId: string;
+  setJoined: React.Dispatch<React.SetStateAction<string>>;
 }

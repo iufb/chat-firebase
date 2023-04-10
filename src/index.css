@@ -16,7 +16,7 @@
     @apply w-full h-full;
   }
   .pageScreen {
-    @apply w-full h-screen;
+    @apply w-full h-screen min-h-screen;
   }
   .gradientText {
     @apply text-transparent bg-clip-text bg-gradient-to-l from-sky-500 to-yellow-300;
@@ -39,6 +39,10 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Source Sans Pro", sans-serif;
+}
+.home::-webkit-scrollbar {
+  display: none;
 }
 ::-webkit-scrollbar {
   width: 10px;

@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { logOut } from "../../firebase/auth";
 import { useAuth } from "../../helpers/hooks/useAuth";
-import { Button, Logo } from "../../ui";
+import { Button, Dropdown, Logo } from "../../ui";
 import { NavbarProps } from "./Navbar.props";
 import { ReactComponent as BurgerIcon } from "../../assets/burger.svg";
 import { ReactComponent as CloseIcon } from "../../assets/close.svg";
@@ -23,6 +23,7 @@ export const Navbar = memo(
   ({ className, ...props }: NavbarProps): JSX.Element => {
     const { user } = useAuth();
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [dropDown, setDropDown] = useState(false);
     const navigate = useNavigate();
     const { isMobile } = useIsMobile();
     const handleAuth = () => {
@@ -52,9 +53,26 @@ export const Navbar = memo(
             </li>
           ))}
           {!isMobile && (
-            <li onClick={handleAuth}>
+            <li>
               {user ? (
-                <UserHeader user={user} className="hoverCover" />
+                <>
+                  <UserHeader
+                    user={user}
+                    className="hoverCover"
+                    onClick={() => setDropDown((prev) => !prev)}
+                  />
+                  {dropDown && (
+                    <Dropdown setDropDown={setDropDown}>
+                      <li>{user.email}</li>
+                      <li
+                        className="cursor-pointer font-bold"
+                        onClick={handleAuth}
+                      >
+                        Log Out
+                      </li>
+                    </Dropdown>
+                  )}
+                </>
               ) : (
                 <div className=" gap-2 center">
                   <Button variant="dark" onClick={() => navigate("/login")}>

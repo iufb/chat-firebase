@@ -45,13 +45,13 @@ export const SidebarItem = memo(
           <Link to={`/conversation/${conversation.id}`}>
             <div className="flex flex-col gap-2">
               <UserHeader user={r} className="flex justify-start" />
-              {lastMessageState && (
-                <p className="text-md text-gray-500  truncate lg:max-w-[330px] md:max-w-[220px] sm:max-w-[500px] xm:max-w-[350px]">
-                  {lastMessageState.name == r.name
+              <p className="text-md text-gray-500  truncate lg:max-w-[330px] md:max-w-[220px] sm:max-w-[500px] xm:max-w-[350px]">
+                {lastMessageState
+                  ? lastMessageState.name == r.name
                     ? lastMessageState.content
-                    : `You: ${lastMessageState.content}`}
-                </p>
-              )}
+                    : `You: ${lastMessageState.content}`
+                  : "Messages not found."}
+              </p>
             </div>
           </Link>
         )}

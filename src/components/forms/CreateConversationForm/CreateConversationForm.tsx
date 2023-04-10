@@ -19,6 +19,7 @@ export const CreateConversationForm = memo(() => {
   }));
 
   const { setIsShow } = useShowCreateModal();
+  const [error, setError] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
   useOnClickOutside(formRef, () => setIsShow(false));
 
@@ -28,9 +29,17 @@ export const CreateConversationForm = memo(() => {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (user && selectedUser) {
-      CreateConversation(user, selectedUser);
-      fetchConversations(user.id);
-      setIsShow(false);
+      setError("");
+      CreateConversation(user, selectedUser)
+        .then(() => {
+          fetchConversations(user.id);
+          setIsShow(false);
+        })
+        .catch((e) => {
+          if (e instanceof Error) {
+            setError(e.message);
+          }
+        });
     }
   };
   const filteredList = () => {
@@ -38,9 +47,9 @@ export const CreateConversationForm = memo(() => {
       users &&
       user &&
       users.filter((userName) => {
-        const name: string = userName.name.toLowerCase();
+        const name: string = userName?.name?.toLowerCase();
         return (
-          name.includes(selectedName.toLowerCase().trim()) &&
+          name?.includes(selectedName.toLowerCase().trim()) &&
           userName.id !== user.id
         );
       })
@@ -82,7 +91,7 @@ export const CreateConversationForm = memo(() => {
           />
         )}
       </div>
-
+      {error && <p className="text-red-600 underline">{error + "."}</p>}
       <Button variant="dark" className="w-full">
         Create
       </Button>

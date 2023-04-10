@@ -2,55 +2,20 @@ import { useIsMobile } from "../../../helpers/hooks/useIsMobile";
 import { useRecipient } from "../../../zustand/users/recipient";
 import { UserHeader } from "../../UserHeader/UserHeader";
 import { ReactComponent as ArrowBack } from "../../../assets/arrow-back.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../../ui";
 import { ReactComponent as CallIcon } from "../../../assets/call.svg";
-import { useStartCall } from "../../../zustand/videocall/startCall";
-import { useEffect, useState } from "react";
-import { useIsCalling } from "../../../zustand/videocall/isCalling";
-import { useConversations } from "../../../zustand/conversations/conversations";
-import { doc, DocumentData, onSnapshot } from "firebase/firestore";
-import { auth, db } from "../../../firebase/firebase";
-import { useIsAnswered } from "../../../zustand/videocall/isAnswered";
 import VideoCall from "../../VideoCall/VideoCall";
+import { useStartCall } from "../../../zustand/videocall/startCall";
 export const ChatBoxHeader = (): JSX.Element => {
   const { recipient } = useRecipient((state) => ({
     recipient: state.recipient,
   }));
-  const { startCall, setStartCall } = useStartCall((state) => ({
+  const { setStartCall } = useStartCall((state) => ({
     setStartCall: state.setStartCall,
-    startCall: state.startCall,
   }));
-  const { isCalling, setIsCalling } = useIsCalling((state) => ({
-    isCalling: state.isCalling,
-    setIsCalling: state.setIsCalling,
-  }));
-  const { isAnswered, setIsAnswered } = useIsAnswered((state) => ({
-    isAnswered: state.isAnswered,
-    setIsAnswered: state.setIsAnswered,
-  }));
-
-  const { conversationId } = useConversations((state) => ({
-    conversationId: state.conversationId,
-  }));
-  const [callUser, setCallUser] = useState<string>("");
-  useEffect(() => {
-    if (conversationId)
-      onSnapshot(doc(db, "calls", conversationId), (doc) => {
-        if (doc.exists()) {
-          const data = doc.data();
-          setIsCalling(data.isCalling);
-          setIsAnswered(data.isAnswered);
-          setCallUser(data.callUser);
-        }
-      });
-  }, []);
-  useEffect(() => {
-    setStartCall(isCalling || isAnswered);
-  }, [isCalling, isAnswered]);
   const { isMobile } = useIsMobile();
-  const r: DocumentData =
-    typeof recipient == "string" ? JSON.parse(recipient) : recipient;
+  const r = typeof recipient == "string" ? JSON.parse(recipient) : recipient;
   const navigate = useNavigate();
   const nav = () => {
     navigate("/conversations");
@@ -84,7 +49,6 @@ export const ChatBoxHeader = (): JSX.Element => {
           </Button>
         </div>
       )}
-      <VideoCall />
     </>
   );
 };

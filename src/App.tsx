@@ -1,8 +1,8 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Chatbox, ConversationSidebar } from "./components";
 import { Chat } from "./components/Chatbox/Chat/Chat";
 import VideoCall from "./components/VideoCall/VideoCall";
-import { VideoChat } from "./components/VideoChat/VideoChat";
+import { useIncomingCall } from "./helpers/hooks/useIncomingCall";
 import { useIsMobile } from "./helpers/hooks/useIsMobile";
 import { ProtectedRoute } from "./helpers/ProtectedRoute";
 import {
@@ -18,57 +18,64 @@ import {
   RegisterPage,
   UpdateUserPage,
 } from "./pages";
+import { useStartCall } from "./zustand/videocall/startCall";
 
 function App() {
   const { isMobile } = useIsMobile();
+  const { startCall } = useStartCall((state) => ({
+    startCall: state.startCall,
+  }));
+  useIncomingCall();
   return (
-    <Routes>
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/update" element={<UpdateUserPage />} />
-      <Route path="video" element={<VideoCall />} />
-      {!isMobile ? (
-        <Route path="/" element={<PageLayout />}>
-          <Route path="home" element={<HomePage />} />
-          <Route element={<ConversationLayout />}>
-            <Route
-              path="conversations"
-              element={
-                <ProtectedRoute>
-                  <ConversationPage />
-                </ProtectedRoute>
-              }
-            >
-              <Route path=":id" element={<Chatbox />} />
+    <>
+      {startCall && <VideoCall />}
+      <Routes>
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/update" element={<UpdateUserPage />} />
+        {!isMobile ? (
+          <Route path="/" element={<PageLayout />}>
+            <Route path="home" element={<HomePage />} />
+            <Route element={<ConversationLayout />}>
+              <Route
+                path="conversations"
+                element={
+                  <ProtectedRoute>
+                    <ConversationPage />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path=":id" element={<Chatbox />} />
+              </Route>
             </Route>
           </Route>
-        </Route>
-      ) : (
-        <>
-          <Route path="/" element={<MobileLayout />}>
-            <Route path="home" element={<HomePage />} />
-            <Route
-              path="conversations"
-              element={
-                <ProtectedRoute>
-                  <ConversationSidebar />
-                </ProtectedRoute>
-              }
-            />
-          </Route>
-          <Route element={<MobileConversationLayout />}>
-            <Route
-              path="/conversations/:id"
-              element={
-                <ProtectedRoute>
-                  <Chat />
-                </ProtectedRoute>
-              }
-            />
-          </Route>
-        </>
-      )}
-    </Routes>
+        ) : (
+          <>
+            <Route path="/" element={<MobileLayout />}>
+              <Route path="home" element={<HomePage />} />
+              <Route
+                path="conversations"
+                element={
+                  <ProtectedRoute>
+                    <ConversationSidebar />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route element={<MobileConversationLayout />}>
+              <Route
+                path="/conversations/:id"
+                element={
+                  <ProtectedRoute>
+                    <Chat />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+          </>
+        )}
+      </Routes>
+    </>
   );
 }
 

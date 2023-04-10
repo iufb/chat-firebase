@@ -4,6 +4,8 @@ import { Button, Input } from "../../ui";
 import { IForm } from "./IForm.interface";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../helpers/hooks/useAuth";
+import { useState } from "react";
+import { LoginErrorHandler } from "../../helpers/helpers";
 
 export const Form = ({
   title,
@@ -12,16 +14,26 @@ export const Form = ({
   path,
   ...props
 }: FormProps): JSX.Element => {
-  const { register, handleSubmit } = useForm<IForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IForm>();
   const { user } = useAuth();
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const onSubmit = (data: IForm) => {
-    try {
-      eventHandler(data);
-      navigate(`/${path}`);
-    } catch (e) {
-      console.log(e);
-    }
+    setError(null);
+    eventHandler(data)
+      .then(() => {
+        if (!error) navigate(`/${path}`);
+      })
+      .catch((e) => {
+        if (e instanceof Error) {
+          console.log(e);
+          setError(e.message);
+        }
+      });
   };
   return (
     <form
@@ -32,13 +44,19 @@ export const Form = ({
       <Input
         type="email"
         id="Email"
-        {...register("email", { required: true })}
+        {...register("email", { required: "Field" })}
       />
       <Input
         type="password"
         id="Password"
         {...register("password", { required: true })}
       />
+
+      {error && (
+        <p className="text-white p-1 pl-3 border-2 border-red-600 rounded-lg  text-xl">
+          {LoginErrorHandler(error)}
+        </p>
+      )}
       <Button
         className=" w-full xl:text-3xl lg:text-2xl text-lg mt-5"
         variant="white"

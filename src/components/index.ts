@@ -6,3 +6,6 @@ export * from "./forms/UpdateUserForm/UpdateUserForm";
 export * from "./UserHeader/UserHeader";
 export * from "./forms/CreateConversationForm/CreateConversationForm";
 export * from "./modals/CreateConversationModal/CreateConversationModal";
+export * from "./HeadSection/HeadSection";
+export * from "./ContactUs/ContactUs";
+export * from "./Footer/Footer";

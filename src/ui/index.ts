@@ -5,3 +5,4 @@ export * from "./Select/Select";
 export * from "./Button/VideoButton/VideoButton";
 export * from "./Spinner/Spinner";
 export * from "./Skeleton/Skeleton";
+export * from "./Dropdown/Dropdown";

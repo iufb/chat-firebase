@@ -1,5 +1,4 @@
-import { DocumentData } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../../helpers/hooks/useAuth";
 import { useConversations } from "../../zustand/conversations/conversations";
 import { SidebarHeader } from "./SidebarHeader/SidebarHeader";
@@ -17,7 +16,7 @@ export const ConversationSidebar = (): JSX.Element => {
     } catch (err) {
       console.log(err);
     }
-  }, [user]);
+  }, [user, conversations]);
   return (
     <div>
       <SidebarHeader />
