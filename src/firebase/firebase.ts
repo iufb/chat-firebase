@@ -3,15 +3,15 @@ import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
+const envs = import.meta.env;
 const firebaseConfig = {
-  apiKey: "AIzaSyC2hk-MU10jE-eRhmcHJdJbLHlDSZcIH2s",
-  authDomain: "fb-chat-f15d1.firebaseapp.com",
-  databaseURL:
-    "https://fb-chat-f15d1-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "fb-chat-f15d1",
-  storageBucket: "fb-chat-f15d1.appspot.com",
-  messagingSenderId: "156205631234",
-  appId: "1:156205631234:web:4d78a679a4fed2575ea41b",
+  apiKey: envs.VITE_FIREBASE_APIKEY,
+  authDomain: envs.VITE_FIREBASE_AUTHDOMAIN,
+  databaseURL: envs.VITE_FIREBASE_DATABASE,
+  projectId: envs.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: envs.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: envs.VITE_FIREBASE_MESSAGINGSENDERID,
+  appId: envs.VITE_FIREBASE_APPID,
 };
 
 export const app = initializeApp(firebaseConfig);
