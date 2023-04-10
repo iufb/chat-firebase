@@ -23,14 +23,14 @@ export const MessageField = ({
     setValue(e.target.value);
   };
   function send() {
-    if (user) {
+    if (user && value) {
       sendMessage(conversationId, user, value);
       updateLastMessage(conversationId, value);
       setValue("");
     }
   }
   const onMessage = (e: KeyboardEvent) => {
-    if (e.code == "Enter") {
+    if (e.code == "Enter" && !value) {
       send();
     }
   };
