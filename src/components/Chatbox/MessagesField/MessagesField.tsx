@@ -37,7 +37,7 @@ export const MessageField = ({
   useOnClickOutside(ref, () => setShowEmoji(false));
   return (
     <div
-      className={`${className} w-full center pb-4  bottom-0 bg-white gap-3 md:static `}
+      className={`${className} w-full center pb-4 px-2 lg:px-0  bottom-0 bg-white gap-3 md:static `}
       {...props}
       onKeyDown={onMessage}
     >
@@ -62,7 +62,7 @@ export const MessageField = ({
         )}
       </div>
       <Button variant="icon" onClick={send}>
-        <EnterIcon className="fill-gray-500 w-10 h-10 hover:scale-105" />
+        <EnterIcon className="fill-gray-500 lg:w-10 lg:h-10 w-8 h-8   hover:scale-105" />
       </Button>
     </div>
   );
