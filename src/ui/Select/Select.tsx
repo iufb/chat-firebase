@@ -10,7 +10,7 @@ export const Select = ({
 }: SelectProps): JSX.Element => {
   return (
     <div
-      className={`${className} flex flex-col  gap-2 w-full max-w-[400px] bg-white  bg-opacity-50  rounded-md text-black p-2 divide-y divide-gray-300 backdrop-blur-sm`}
+      className={`${className} max-h-[400px] overflow-y-scroll flex flex-col  gap-2 w-full max-w-[400px] bg-white  bg-opacity-50  rounded-md text-black p-2 divide-y divide-gray-300 backdrop-blur-sm`}
       {...props}
     >
       {users.length == 0 && (

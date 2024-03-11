@@ -8,6 +8,7 @@ import {
 import TextVideo from "../../assets/text1.mp4";
 import LogoVideo from "../../assets/logo1.mp4";
 import NotificationVideo from "../../assets/notification.webm";
+import { useEffect, useState } from "react";
 const aboutConst = {
   pages: [
     {

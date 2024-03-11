@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { GetNickName } from "../../helpers/helpers";
+import { Spinner } from "../../ui";
 import { UserHeaderProps } from "./UserHeader.props";
 
 export const UserHeader = memo(
@@ -10,7 +11,7 @@ export const UserHeader = memo(
     className,
     ...props
   }: UserHeaderProps): JSX.Element => {
-    if (!user) return <div>Loading</div>;
+    if (!user) return <Spinner size="md" />;
     const { avatar, name, email } = user;
     return (
       <div
@@ -30,5 +31,5 @@ export const UserHeader = memo(
         </div>
       </div>
     );
-  }
+  },
 );

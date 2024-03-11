@@ -1,9 +1,14 @@
-export const Spinner = () => {
+interface SpinnerProps {
+  size?: "md" | "lg";
+}
+export const Spinner = ({ size = "lg" }: SpinnerProps) => {
   return (
     <div>
       <svg
         aria-hidden="true"
-        className="inline w-20 h-20 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600"
+        className={`inline ${
+          size == "lg" ? "w-20 h-20" : "w-8 h-8"
+        } mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

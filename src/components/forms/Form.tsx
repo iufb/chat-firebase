@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { FormProps } from "./Form.props";
-import { Button, Input } from "../../ui";
+import { Button, Input, Spinner } from "../../ui";
 import { IForm } from "./IForm.interface";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../helpers/hooks/useAuth";
@@ -21,16 +21,20 @@ export const Form = ({
   } = useForm<IForm>();
   const { user } = useAuth();
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const onSubmit = (data: IForm) => {
+    setLoading(true);
     setError(null);
     eventHandler(data)
       .then(() => {
         if (!error) navigate(`/${path}`);
+        setLoading(false);
       })
       .catch((e) => {
         if (e instanceof Error) {
           console.log(e);
+          setLoading(false);
           setError(e.message);
         }
       });
@@ -60,9 +64,10 @@ export const Form = ({
       <Button
         className=" w-full xl:text-3xl lg:text-2xl text-lg mt-5"
         variant="white"
+        disabled={loading}
         type="submit"
       >
-        {title}
+        {loading ? <Spinner size="md" /> : <span>{title}</span>}
       </Button>
     </form>
   );

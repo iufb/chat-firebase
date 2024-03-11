@@ -7,4 +7,5 @@ export interface ButtonProps
   children: ReactNode;
   variant: "white" | "dark" | "icon";
   type?: "submit";
+  disabled?: boolean;
 }

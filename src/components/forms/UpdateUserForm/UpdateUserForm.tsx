@@ -1,4 +1,4 @@
-import { Button, Input } from "../../../ui";
+import { Button, Input, Spinner } from "../../../ui";
 import { ReactComponent as ImageIcon } from "../../../assets/image.svg";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ import { addImage } from "../../../firebase/storage";
 import { updateUser } from "../../../firebase/auth";
 export const UpdateUserForm = (): JSX.Element => {
   const [url, setUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const filePickerRef = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
   const getImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,10 +30,12 @@ export const UpdateUserForm = (): JSX.Element => {
   const navigate = useNavigate();
   const imgRef = ref(storage, `users/${user?.id}/avatar`);
   const onSubmit = (data: IUpdateUserForm) => {
+    setLoading(true);
     if (url) {
       addImage(imgRef, url).then((url) => {
         const newData = { ...data, photoURL: url };
         updateUser(newData);
+        setLoading(false);
         navigate("/home");
       });
     }
@@ -60,8 +63,8 @@ export const UpdateUserForm = (): JSX.Element => {
         id="Last Name"
         {...register("lastName", { required: true })}
       />
-      <Button variant="white" className="w-full">
-        Submit
+      <Button variant="white" className="w-full" disabled={loading}>
+        {loading ? <Spinner size="md" /> : <span>Submit</span>}
       </Button>
     </form>
   );

@@ -15,7 +15,7 @@ export const Dropdown = ({
   return (
     <ul
       ref={ref}
-      className={`${className} absolute p-4 flex flex-col center text-gray-600 gap-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+      className={`${className} absolute p-4 flex flex-col center text-gray-600 gap-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 `}
       {...props}
     >
       {children}
